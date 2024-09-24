@@ -1,8 +1,10 @@
 package com.be.user.controller;
 
 
+import com.be.user.dto.req.UserLoginReqDto;
 import com.be.user.dto.req.UserRegisterReqDto;
 import com.be.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +13,11 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("")
     public String tesss() {
@@ -33,5 +35,13 @@ public class UserController {
             return "success";
         }
         return "fail";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody @Valid UserLoginReqDto reqDto) {
+        log.info("login = " + reqDto.toString());
+
+        userService.login(reqDto);
+
     }
 }
