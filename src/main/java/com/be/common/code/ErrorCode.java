@@ -15,6 +15,10 @@ public enum ErrorCode {
      */
     PASSWORD_MATCH_INVALID(BAD_REQUEST, "비밀번호와 비밀번호 재입력이 동일하지 않습니다."),
 
+    /**
+     * 401 Unauthorized
+     */
+    LOGIN_UNAUTHENTICATED(UNAUTHORIZED, "아이디 또는 비밀번호가 일치하지 않습니다"),
 
     /**
      * 409 Conflict

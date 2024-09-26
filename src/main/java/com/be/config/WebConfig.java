@@ -1,5 +1,7 @@
 package com.be.config;
 
+import com.be.security.config.SecurityConfig;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -17,11 +19,13 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
     final int FILE_SIZE_THRESHOLD = 1024 * 1024 * 5;;
 
 
+
+
 //    @Value("${upload.maxFileSize}") Long maxFileSize;
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { RootConfig.class};
+        return new Class[] { RootConfig.class, SecurityConfig.class};
     }
 
     @Override

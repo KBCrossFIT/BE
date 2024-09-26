@@ -3,6 +3,7 @@ package com.be.user.service;
 import com.be.common.code.ErrorCode;
 import com.be.exception.CustomException;
 import com.be.user.domain.User;
+import com.be.user.dto.req.UserLoginReqDto;
 import com.be.user.dto.req.UserRegisterReqDto;
 import com.be.user.dto.res.UserRegisterResDto;
 import com.be.user.mapper.UserMapper;
@@ -50,6 +51,34 @@ public class UserService {
         }
     }
 
+    public User login(UserLoginReqDto userLoginReqDto) {
+        User user = fineOneUser(userLoginReqDto.getUserID());
+
+        boolean isVerified = verifyPassword(user, userLoginReqDto.getUserPassword());
+        if (!isVerified) {
+            throw new CustomException(LOGIN_UNAUTHENTICATED);
+        }
+
+        return user;
+    }
+
+    private User fineOneUser(String userID) {
+        Optional<User> user = Optional.ofNullable(userMapper.selectOneByUserID(userID));
+
+        if (user.isEmpty()) {
+            log.info("User가 존재하지 않습니다.");
+            throw new CustomException(LOGIN_UNAUTHENTICATED);
+        }
+
+        return user.get();
+    }
+
+    private boolean verifyPassword(User user, String requestPassword) {
+        // 로그인 시 비밀번호 일치여부 확인
+        return passwordEncoder().matches(requestPassword, user.getUserPassword());
+
+    }
+
     public void validateUserID(String userID) {
 
         isExistID(userID);
@@ -61,6 +90,7 @@ public class UserService {
     }
 
     public void checkPasswordMatching(String userPassword, String reEnteredPassword) {
+        // 회원가입 시 비밀번호 일치 여부 확인
         if (!userPassword.equals(reEnteredPassword))
             throw new CustomException(PASSWORD_MATCH_INVALID);
     }
@@ -86,6 +116,7 @@ public class UserService {
             throw new CustomException(EXISTING_EMAIL);
         }
     }
+
 
 
 

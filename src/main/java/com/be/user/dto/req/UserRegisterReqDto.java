@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
