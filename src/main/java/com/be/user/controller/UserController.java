@@ -1,7 +1,6 @@
 package com.be.user.controller;
 
 
-import com.be.common.code.SuccessCode;
 import com.be.common.dto.DefaultResDto;
 import com.be.user.domain.User;
 import com.be.user.dto.req.UserLoginReqDto;
@@ -10,7 +9,6 @@ import com.be.user.dto.res.UserDefaultResDto;
 import com.be.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +41,8 @@ public class UserController {
         }
         return "fail";
     }
+
+
 
     @PostMapping("/login")
     public ResponseEntity<DefaultResDto<Object>> login(@RequestBody @Valid UserLoginReqDto userLoginReqDto) {

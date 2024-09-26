@@ -7,6 +7,7 @@ import com.be.user.dto.req.UserLoginReqDto;
 import com.be.user.dto.req.UserRegisterReqDto;
 import com.be.user.dto.res.UserRegisterResDto;
 import com.be.user.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,10 +23,11 @@ import static com.be.common.code.ErrorCode.*;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+
+    private final UserMapper userMapper;
 
     @Bean
     private PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder();}
@@ -116,9 +118,5 @@ public class UserService {
             throw new CustomException(EXISTING_EMAIL);
         }
     }
-
-
-
-
 
 }
