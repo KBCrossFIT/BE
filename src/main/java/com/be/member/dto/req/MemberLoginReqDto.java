@@ -1,4 +1,4 @@
-package com.be.user.dto.req;
+package com.be.member.dto.req;
 
 
 import lombok.AllArgsConstructor;
@@ -12,9 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserLoginReqDto {
+public class MemberLoginReqDto {
 
-    private String userID;
-    private String userPassword;
+    private String memberID;
+    private String password;
 
 }

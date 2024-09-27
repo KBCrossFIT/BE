@@ -1,13 +1,9 @@
 package com.be.config;
 
-import com.be.security.config.SecurityConfig;
-import lombok.RequiredArgsConstructor;
+import com.be.auth.config.SecurityConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletRegistration;
 
 @Slf4j
 @Configuration

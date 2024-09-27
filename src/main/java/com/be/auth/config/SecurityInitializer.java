@@ -1,4 +1,4 @@
-package com.be.security.config;
+package com.be.auth.config;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

@@ -16,7 +16,7 @@ public enum SuccessCode {
      */
     // 200 OK
 
-    USER_LOGIN(OK, "회원이 로그인했습니다.");
+    MEMBER_LOGIN(OK, "회원이 로그인했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

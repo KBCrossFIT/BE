@@ -1,7 +1,7 @@
-package com.be.user.repository;
+package com.be.member.repository;
 
-import com.be.user.dto.res.UserRegisterResDto;
-import com.be.user.mapper.UserMapper;
+import com.be.member.dto.res.MemberRegisterResDto;
+import com.be.member.mapper.MemberMapper;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,8 +16,8 @@ public class UserRepository {
         this.sqlSessionTemplate = sqlSessionTemplate;
     }
 
-    public int insertUser(UserRegisterResDto userRegisterResDto) {
-        return sqlSessionTemplate.getMapper(UserMapper.class).insert(userRegisterResDto);
+    public int insertUser(MemberRegisterResDto userRegisterResDto) {
+        return sqlSessionTemplate.getMapper(MemberMapper.class).insert(userRegisterResDto);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.be.security.config;
+package com.be.auth.config;
 
 
 import lombok.RequiredArgsConstructor;
