@@ -18,6 +18,11 @@
         <mapper resource="mapper/productMapper.xml"/>
         <mapper resource="mapper/SavingProductMapper.xml"/>
         <mapper resource="mapper/MemberMapper.xml"/>
+        <mapper resource="mapper/FundProductMapper.xml"/>
+        <mapper resource="mapper/BondProductMapper.xml"/>
+        <mapper resource="mapper/StockMapper.xml"/>
+        <mapper resource="mapper/PortfolioMapper.xml"/>
+        <mapper resource="mapper/CartMapper.xml"/>
     </mappers>
 
 </configuration>

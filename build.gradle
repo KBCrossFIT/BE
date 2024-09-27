@@ -94,6 +94,9 @@ dependencies {
   implementation 'com.auth0:java-jwt:3.18.2'
 
 
+  // OkHttpClient
+  implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
 
   // 테스트
   testImplementation "org.springframework:spring-test:${springVersion}"
@@ -102,6 +105,9 @@ dependencies {
 
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+  // OkHttpClient
+  implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 }
 
 

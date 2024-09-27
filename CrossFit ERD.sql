@@ -129,8 +129,8 @@ CREATE TABLE `Product` (
 	`productType`	CHAR(1)	NULL
 );
 
-CREATE TABLE `PorfolioItem` (
-	`porfolioItemID`	INT	NOT NULL,
+CREATE TABLE `PortfolioItem` (
+	`portfolioItemID`	INT	NOT NULL,
 	`portfolioID`	INT	NOT NULL,
 	`productID`	INT	NOT NULL,
 	`stockCode`	VARCHAR(10)	NOT NULL,
@@ -192,8 +192,8 @@ ALTER TABLE `Product` ADD CONSTRAINT `PK_PRODUCT` PRIMARY KEY (
 	`ProductID`
 );
 
-ALTER TABLE `PorfolioItem` ADD CONSTRAINT `PK_PORFOLIOITEM` PRIMARY KEY (
-	`PorfolioItemID`
+ALTER TABLE portfolioitem ADD CONSTRAINT `PK_PORTFOLIOITEM` PRIMARY KEY (
+	portfolioItemID
 );
 
 ALTER TABLE `FundProduct` ADD CONSTRAINT `PK_FUNDPRODUCT` PRIMARY KEY (
@@ -225,3 +225,96 @@ REFERENCES `Product` (
 	`ProductID`
 );
 
+
+CREATE DATABASE CROSS_FIT;
+USE CROSS_FIT;
+
+CREATE TABLE PRODUCT (
+                         productID INT auto_increment primary KEY,
+                         productType CHAR(1) NOT NULL
+);
+
+CREATE TABLE SavingsProduct(
+                               productID INT PRIMARY KEY,
+                               fin_co_no VARCHAR(50),
+                               fin_prdt_cd VARCHAR(50),
+                               kor_co_nm VARCHAR(100),
+                               fin_prdt_nm VARCHAR(100),
+                               dcls_month VARCHAR(6),
+                               join_way TEXT,
+                               mtrt_int TEXT,
+                               spcl_cnd TEXT,
+                               join_deny INT,
+                               join_member VARCHAR(100),
+                               etc_note TEXT,
+                               max_limit VARCHAR(255),
+                               dcls_strt_day VARCHAR(8),
+                               dcls_end_day VARCHAR(8),
+                               RiskLevel INT,
+                               hit INT DEFAULT 0,
+                               FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+
+CREATE TABLE SavingProductRates (
+                                    productID INT,
+                                    save_trm INT,
+                                    intr_rate_type CHAR(1),
+                                    intr_rate_type_nm VARCHAR(20),
+                                    intr_rate DECIMAL(5,2),
+                                    intr_rate2 DECIMAL(5,2),
+                                    rsrv_type CHAR(1),
+                                    rsrv_type_nm VARCHAR(50),
+                                    PRIMARY KEY (productID, save_trm),
+                                    FOREIGN KEY (productID) REFERENCES SavingsProduct(productID)
+);
+
+select * from product;
+select * from savingsProduct;
+select * from savingproductrates;
+
+DELETE FROM product;  -- 테이블에서 모든 데이터를 삭제
+ALTER TABLE product AUTO_INCREMENT = 1;
+
+DELETE FROM SAVINGSPRODUCT;
+ALTER TABLE SAVINGSPRODUCT AUTO_INCREMENT = 1;
+
+DELETE FROM SAVINGPRODUCTRATES;
+ALTER TABLE SAVINGPRODUCTRATES auto_increment = 1;
+
+CREATE INDEX idx_portfolio_id ON portfolio(portfolioID);
+
+ALTER TABLE `portfolioitem`
+    ADD CONSTRAINT `FK_Portfolio_TO_PortfolioItem_1`
+    FOREIGN KEY (`portfolioID`)
+    REFERENCES `portfolio` (`portfolioID`)
+    ON DELETE CASCADE;
+
+CREATE TABLE `Portfolio` (
+                             `portfolioID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                             `portfolioName`	VARCHAR(100)	NULL,
+                             `creationDate`	DATETIME	NULL,
+                             `total`	DECIMAL(15,2)	NULL,
+                             `expectedReturn`	DECIMAL(5,2)	NULL,
+                             `riskLevel`	INT	NULL,
+                             `userNum`	INT	NOT NULL
+);
+
+CREATE TABLE `PortfolioItem` (
+                                 `portfolioItemID`	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                 `portfolioID`	INT	NOT NULL,
+                                 `productID`	INT	    NULL,
+                                 `stockCode`	VARCHAR(10)	    NULL,
+                                 `amount`	INT	NULL,
+                                 `expectedReturn`	DECIMAL(5,2)	NULL
+);
+
+CREATE TABLE `CartItem` (
+                            `cartID`	INT	NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                            `productID`	INT	NOT NULL,
+                            `userNum`	INT	NOT NULL,
+                            `productType` CHAR(1) NOT NULL,
+                            `provider` VARCHAR(100) NOT NULL,
+                            `productName` VARCHAR(100) NOT NULL,
+                            `expectedReturn` DECIMAL(5,2) NULL,
+                            `interestRate` DECIMAL(5,2) NULL
+);
