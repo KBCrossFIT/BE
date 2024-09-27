@@ -2,9 +2,10 @@ package com.be.member.service;
 
 import com.be.exception.CustomException;
 import com.be.member.domain.Member;
+import com.be.member.domain.MemberRole;
+import com.be.member.domain.type.Role;
 import com.be.member.dto.req.MemberLoginReqDto;
 import com.be.member.dto.req.MemberRegisterReqDto;
-import com.be.member.dto.res.MemberRegisterResDto;
 import com.be.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,29 +29,26 @@ public class MemberService {
     @Bean
     private PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder();}
 
-    public int registerMember(MemberRegisterReqDto reqDto) {
+    public Member registerMember(MemberRegisterReqDto reqDto) {
 
         validateMemberID(reqDto.getMemberID());
         validateMemberEmail(reqDto.getEmail());
         checkPasswordMatching(reqDto.getPassword(), reqDto.getReEnteredPassword());
         String encodedPassword = encodePassword(reqDto.getPassword());
-        MemberRegisterResDto resDto = reqDto.toMemberResDto(encodedPassword);
+        Member member = reqDto.toMember(encodedPassword);
 
-        try {
-            memberMapper.insert(resDto);
-            log.info("Member registration successful");
+        saveMember(member);
+        member = fineOneMemberById(member.getMemberID());
 
-            return 1;
-        } catch (Exception e) {
-            e.getStackTrace();
-            log.error("Error registering user: {}", e.getMessage());
+        MemberRole memberRole = createUserRole(member);
+        saveUserRole(memberRole);
 
-            return 0;
-        }
+        return member;
     }
 
+
     public Member login(MemberLoginReqDto memberLoginReqDto) {
-        Member member = fineOneMember(memberLoginReqDto.getMemberID());
+        Member member = fineOneMemberById(memberLoginReqDto.getMemberID());
 
         boolean isVerified = verifyPassword(member, memberLoginReqDto.getPassword());
         if (!isVerified) {
@@ -60,8 +58,8 @@ public class MemberService {
         return member;
     }
 
-    private Member fineOneMember(String userID) {
-        Optional<Member> member = Optional.ofNullable(memberMapper.selectOneByMemberID(userID));
+    private Member fineOneMemberById(String memberId) {
+        Optional<Member> member = Optional.ofNullable(memberMapper.findOneByMemberID(memberId));
 
         if (member.isEmpty()) {
             log.info("사용자가 존재하지 않습니다.");
@@ -99,7 +97,7 @@ public class MemberService {
     }
 
     public void isExistID(String memberID) {
-        Optional<Member> member = Optional.ofNullable(memberMapper.selectOneByMemberID(memberID));
+        Optional<Member> member = Optional.ofNullable(memberMapper.findOneByMemberID(memberID));
 
         if (member.isPresent()) {
             log.info("ID already exists: {}", memberID);
@@ -108,11 +106,34 @@ public class MemberService {
     }
 
     public void isExistMemberEmail(String email) {
-        Optional<Member> member = Optional.ofNullable(memberMapper.selectOneByMemberEmail(email));
+        Optional<Member> member = Optional.ofNullable(memberMapper.findOneByMemberEmail(email));
 
         if (member.isPresent()) {
             throw new CustomException(EXISTING_EMAIL);
         }
+    }
+
+    /**
+     * 회원 권한 생성
+     */
+    private MemberRole createUserRole(Member member) {
+        return MemberRole.builder()
+                .member(member)
+                .role(Role.MEMBER)
+                .build();
+    }
+
+    private void saveMember(Member member) {
+        try {
+            memberMapper.insert(member);
+        } catch (RuntimeException e) {
+            throw new CustomException(e, SERVER_ERROR);
+        }
+    }
+
+    private void saveUserRole(MemberRole memberRole) {
+
+
     }
 
 }

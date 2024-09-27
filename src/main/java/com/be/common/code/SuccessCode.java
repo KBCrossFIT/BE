@@ -15,6 +15,8 @@ public enum SuccessCode {
      * User Controller
      */
     // 200 OK
+    USERNAME_AVAILABLE(OK, "아이디 중복 확인을 했습니다."),
+    EMAIL_AVAILABLE(OK, "이메일 중복 확인을 했습니다."),
 
     MEMBER_LOGIN(OK, "회원이 로그인했습니다.");
 

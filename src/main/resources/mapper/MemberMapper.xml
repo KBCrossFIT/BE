@@ -4,19 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.be.member.mapper.MemberMapper">
-    <insert id = "insert" parameterType="MemberRegisterResDto">
+    <insert id = "insert" parameterType="Member">
         insert into member(member_id, member_name, email, password, birth,
                          gender, reg_date)
         values (#{memberID}, #{memberName}, #{email}, #{password}, #{birth},
                 #{gender}, #{regDate});
     </insert>
 
-    <select id="selectOneByMemberID" parameterType="String" resultType="Member">
-        select * from member where user_id = #{memberID};
+    <select id="findOneByMemberID" parameterType="String" resultType="Member">
+        select * from member where member_id = #{memberID};
     </select>
 
-    <select id="selectOneByMemberEmail" parameterType="String" resultType="Member">
-        select * from member where user_email = #{email};
+    <select id="findOneByMemberEmail" parameterType="String" resultType="Member">
+        select * from member where email = #{email};
+    </select>
+
+    <select id="findOneByMemberNum" parameterType="long" resultType="Member">
+        select * from member where member_num = #{memberNum};
     </select>
 
 </mapper>

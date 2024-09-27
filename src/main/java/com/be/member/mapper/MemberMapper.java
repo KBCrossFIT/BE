@@ -8,10 +8,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MemberMapper {
 
-    int insert(MemberRegisterResDto userRegisterResDto);
+    int insert(Member member);
 
-    Member selectOneByMemberID(String memberID);
+    Member findOneByMemberID(String memberID);
 
-    Member selectOneByMemberEmail(String email);
+    Member findOneByMemberEmail(String email);
+
+    Member findOneByMemberNum(long memberNum);
 
 }

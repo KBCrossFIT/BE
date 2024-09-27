@@ -1,5 +1,6 @@
 package com.be.member.dto.req;
 
+import com.be.member.domain.Member;
 import com.be.member.dto.res.MemberRegisterResDto;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +44,9 @@ public class MemberRegisterReqDto {
     @Pattern(regexp = "^(남|여)", message = "성별을 선택해주세요.")
     private String gender;
 
-    public MemberRegisterResDto toMemberResDto(String encodedPassword) {
+    public Member toMember(String encodedPassword) {
 
-        return MemberRegisterResDto.builder()
+        return Member.registerMemberBuilder()
                 .memberID(this.memberID)
                 .email(this.getEmail())
                 .memberName(this.getMemberName())
