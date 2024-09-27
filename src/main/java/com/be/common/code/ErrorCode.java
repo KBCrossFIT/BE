@@ -19,6 +19,13 @@ public enum ErrorCode {
      * 401 Unauthorized
      */
     LOGIN_UNAUTHENTICATED(UNAUTHORIZED, "아이디 또는 비밀번호가 일치하지 않습니다"),
+    TOKEN_UNAUTHENTICATED(UNAUTHORIZED, "승인되지 않은 요청입니다. 로그인 후에 다시 시도 해주세요."),
+
+    /**
+     * 403 Forbidden
+     */
+    TOKEN_UNAUTHORIZED(FORBIDDEN, "권한이 없는 요청입니다. 로그인 후에 다시 시도 해주세요."),
+    REQUEST_FORBIDDEN(FORBIDDEN, "권한이 없는 요청입니다."),
 
     /**
      * 404 Not found
@@ -29,7 +36,13 @@ public enum ErrorCode {
      * 409 Conflict
      */
     EXISTING_MEMBER_ID(CONFLICT, "이미 사용중인 ID입니다."),
-    EXISTING_EMAIL(CONFLICT, "이미 사용중인 이메일입니다.");
+    EXISTING_EMAIL(CONFLICT, "이미 사용중인 이메일입니다."),
+
+    /**
+     * 500 Internal server error
+     */
+    SERVER_ERROR(INTERNAL_SERVER_ERROR, "서버 에러가 발생했습니다.");
+
 
 
     private final HttpStatus httpStatus;

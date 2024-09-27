@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 public class MemberDefaultResDto {
 
-    private int memberNum;
+    private long memberNum;
     private String memberID;
     private String Name;
     private String Email;
@@ -21,6 +21,15 @@ public class MemberDefaultResDto {
     private String RegDate;
 
     public MemberDefaultResDto(Member member) {
+        this.memberNum = member.getMemberNum();
+        this.memberID = member.getMemberID();
+        this.Email = member.getEmail();
+        this.Name = member.getMemberName();
+        this.Birth = member.getBirth();
+        this.Gender = member.getGender();
+        this.Preference = member.getPreference();
+        this.InvestScore = member.getInvestScore();
+        this.RegDate = member.getRegDate();
 
     }
 }

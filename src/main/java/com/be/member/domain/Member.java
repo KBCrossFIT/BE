@@ -1,21 +1,22 @@
 package com.be.member.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class Member implements UserDetails {
 
-    private int memberNum;
+    private long memberNum;
     private String memberID;
     private String memberName;
     private String email;
@@ -30,17 +31,28 @@ public class Member implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return this.memberRoles.stream()
+                .map(memberRole ->
+                        new SimpleGrantedAuthority(memberRole.getRole()))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getRoles() {
+        List<String> roles = new ArrayList<>();
+        for(MemberRole memberRole : this.memberRoles)
+            roles.add(memberRole.getRole());
+
+        return roles;
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.memberName;
     }
 
     @Override
@@ -61,5 +73,17 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    @Builder(builderMethodName = "registerMemberBuilder" , builderClassName = "registerMemberBuilder")
+    public Member (String memberID, String memberName, String email, String password,
+                   String birth, String gender, String regDate) {
+        this.memberID = memberID;
+        this.memberName = memberName;
+        this.email = email;
+        this.password = password;
+        this.birth = birth;
+        this.gender = gender;
+        this.regDate = regDate;
     }
 }
